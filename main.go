@@ -1,38 +1,32 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
-	"github.com/AndriiMaliuta/gin-mongo-people/models"
+	"github.com/AndriiMaliuta/gin-mongo-people/repo"
 	"github.com/gin-gonic/gin"
-	"github.com/qiniu/qmgo"
-	"go.mongodb.org/mongo-driver/bson"
-	"log"
-	"os"
+)
+
+const (
+//mongoUrl = os.Getenv("MONGO_URL")
+// context
 )
 
 func getPersons(c *gin.Context) {
-	mongoUrl := os.Getenv("MONGO_URL")
-
-	ctx := context.Background()
-	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
-	if err != nil {
-		log.Panicln(err)
-	}
-	db := client.Database("people")
-	coll := db.Collection("person")
-
-	people := make([]models.Person, 0)
-
-	coll.Find(ctx, bson.M{"age": 36}).All(&people)
-
-	jsonP, err := json.Marshal(people)
-	c.JSON(200, gin.H{"people": jsonP})
+	mongoRepo := repo.MongoRepo{}
+	//jsonP, err := json.Marshal(people)
+	c.PureJSON(200, mongoRepo.GetPersons())
+	//c.JSON(200, jsonP)
 }
 
 func main() {
 
 	r := gin.Default()
-	r.GET("/", getPersons)
+	r.GET("/persons", getPersons)
+	r.GET("/persons/:id", getPersonId)
 	r.Run(":8082")
+}
+
+func getPersonId(c *gin.Context) {
+	id := c.Param("id")
+	mongoRepo := repo.MongoRepo{}
+	c.JSON(200, gin.H{"people": mongoRepo.GetPersonById(id)})
 }
