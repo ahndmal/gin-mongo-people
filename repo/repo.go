@@ -9,12 +9,15 @@ import (
 	"os"
 )
 
+var (
+	mongoUrl = os.Getenv("MONGO_URL")
+	ctx      = context.Background()
+)
+
 type MongoRepo struct{}
 
 func (m MongoRepo) GetPersons() []models.Person {
-	mongoUrl := os.Getenv("MONGO_URL")
 
-	ctx := context.Background()
 	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
 	if err != nil {
 		log.Panicln(err)
@@ -24,14 +27,29 @@ func (m MongoRepo) GetPersons() []models.Person {
 
 	people := make([]models.Person, 0)
 
-	coll.Find(ctx, bson.M{"age": 36}).All(&people)
+	coll.Find(ctx, bson.M{}).All(&people)
 
 	return people
 }
-func (m MongoRepo) GetPersonById(id string) models.Person {
-	mongoUrl := os.Getenv("MONGO_URL")
 
-	ctx := context.Background()
+func (m MongoRepo) GetCars() []models.Car {
+
+	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
+	if err != nil {
+		log.Panicln(err)
+	}
+	db := client.Database("people")
+	coll := db.Collection("cars")
+
+	cars := make([]models.Car, 0)
+
+	coll.Find(ctx, bson.M{}).All(&cars)
+
+	return cars
+}
+
+func (m MongoRepo) GetPersonById(id string) models.Person {
+
 	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
 	if err != nil {
 		log.Panicln(err)

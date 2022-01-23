@@ -19,3 +19,16 @@ type Person struct {
 	CreatedAt   time.Time          `json:"createdAt"`
 	CountryId   string             `json:"countryId" bson:"countryId"`
 }
+
+type Car struct {
+	Id           primitive.ObjectID `json:"_id" bson:"_id"`
+	CarId        int                `json:"carId" bson:"carId"`
+	MaxSpeed     int                `json:"maxSpeed" bson:"maxSpeed"`
+	Model        string             `json:"model"`
+	Color        string             `json:"color"`
+	Age          int                `json:"age" bson:"age"`
+	Origin       string             `json:"origin"`
+	CountryCodes string             `json:"countryCodes"`
+	CountryId    string             `json:"countryId" bson:"countryId"`
+	PersonId     string             `json:"personId" bson:"personId"`
+}
