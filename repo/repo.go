@@ -5,23 +5,19 @@ import (
 	"github.com/AndriiMaliuta/gin-mongo-people/models"
 	"github.com/qiniu/qmgo"
 	"go.mongodb.org/mongo-driver/bson"
-	"log"
 	"os"
 )
 
 var (
-	mongoUrl = os.Getenv("MONGO_URL")
-	ctx      = context.Background()
+	mongoUrl  = os.Getenv("MONGO_URL")
+	ctx       = context.Background()
+	client, _ = qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
 )
 
 type MongoRepo struct{}
 
 func (m MongoRepo) GetPersons() []models.Person {
 
-	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
-	if err != nil {
-		log.Panicln(err)
-	}
 	db := client.Database("people")
 	coll := db.Collection("person")
 
@@ -34,10 +30,6 @@ func (m MongoRepo) GetPersons() []models.Person {
 
 func (m MongoRepo) GetCars() []models.Car {
 
-	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
-	if err != nil {
-		log.Panicln(err)
-	}
 	db := client.Database("people")
 	coll := db.Collection("cars")
 
@@ -50,10 +42,9 @@ func (m MongoRepo) GetCars() []models.Car {
 
 func (m MongoRepo) GetPersonById(id string) models.Person {
 
-	client, err := qmgo.NewClient(ctx, &qmgo.Config{Uri: mongoUrl})
-	if err != nil {
-		log.Panicln(err)
-	}
+	//if err != nil {
+	//	log.Panicln(err)
+	//}
 	db := client.Database("people")
 	coll := db.Collection("person")
 

@@ -32,3 +32,18 @@ type Car struct {
 	CountryId    string             `json:"countryId" bson:"countryId"`
 	PersonId     string             `json:"personId" bson:"personId"`
 }
+
+type Cat struct {
+	Id           primitive.ObjectID `json:"_id" bson:"_id"`
+	CatId        int                `json:"id" bson:"id"`
+	Name         int                `json:"name" bson:"name"`
+	Breed        string             `json:"breed"`
+	Color        string             `json:"color"`
+	Age          int                `json:"age" bson:"age"`
+	Adaptability int                `json:"adaptability" bson:"adaptability"`
+	Intelligence int                `json:"intelligence" bson:"intelligence"`
+	Hairless     int                `json:"hairless" bson:"hairless"`
+	Registry     string             `json:"registry"`
+	DogFriendly  bool               `json:"dogFriendly"`
+	PersonId     string             `json:"personId" bson:"personId"`
+}
